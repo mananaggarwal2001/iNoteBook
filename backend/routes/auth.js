@@ -2,7 +2,10 @@ const express = require('express')
 const User = require('../models/User')
 const router = express.Router()
 const { body, validationResult } = require('express-validator');
-
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const fetchuser = require('../middleware/fetchuser');
+const JWT_SECRET = 'mananisagoodb$oy';
 
 
 // create the user using the POST REQUEST USING THE ENDPOINT:- "api/auth/" doesn't require auth in the given application.
@@ -10,7 +13,7 @@ const { body, validationResult } = require('express-validator');
 // no login required in this auth.js for the authentication for the intial stage.
 
 
-// THE ENDPOINT NAME IS :- /API/AUTH/CREATEUSER
+// ROUTE 1:- THE ENDPOINT NAME IS :- /API/AUTH/CREATEUSER
 router.post('/createuser',
     [body('email', 'Enter the valid Email').isEmail(),
     body('password').isLength({ min: 5 }),
@@ -31,10 +34,23 @@ router.post('/createuser',
             if (givenUser) {
                 return res.status(400).json({ message: "Sorry this user already existis with this email please try with the different emaile address Thank You !!!!" })
             } else {
-                const user = User(req.body)
-                await user.save()
-                console.log(req.body)
-                res.send(req.body)
+                const salt = await bcryptjs.genSalt(10)
+                const securePassword = await bcryptjs.hash(req.body.password, salt);
+                const user = await User.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: securePassword
+
+                });
+                const data = {
+                    user: {
+                        _id: user.id
+                    }
+                }
+
+                const authToken = jwt.sign(data, JWT_SECRET);
+                console.log(user)
+                res.json({ authToken })
             }
         } catch (error) {
             console.error(error.message)
@@ -42,5 +58,58 @@ router.post('/createuser',
         }
     })
 
+
+// ROUTE 2:- Create the endpoint for authenticating the details of the user and to sign in the user to the given application :- /api/auth/login
+
+router.post('/login',
+    [body('email', 'Enter the valid Email').isEmail()
+        , body('password', 'Password cannot be blank').exists()
+    ]
+    , async (req, res) => {
+        const result = validationResult(req);
+        if (!result.isEmpty()) {
+            return res.status(400).json({ error: "Please Enter the valid credentials and try again !!", details: result.array() })
+        } else {
+            const { email, password } = req.body; // destructuring used in for fetching the email and the password.
+            try {
+                const findUser = await User.findOne({ email });
+                if (!findUser) {
+                    return res.status(400).json({ error: "Try to Login with the Correct Credentials." })
+                }
+                const passwordMatch = await bcryptjs.compare(password, findUser.password)
+                if (!passwordMatch) {
+                    return res.status(400).json({ error: "Try to Login with the correct credentials." })
+                }
+
+                // if all the credentials are correct then we will send the payload in which the user id will be send
+
+                const data = {
+                    user: {
+                        id: findUser.id
+                    }
+                }
+                const authToken = jwt.sign(data, JWT_SECRET)
+                res.json({ authToken })
+            } catch (error) {
+                console.log(error.message())
+                res.status(500).send("Internal Server Error")
+            }
+        }
+    })
+
+// ROUTE 3 :- GET THE USER DETAILS IN FOR THE PARTICULAR USER .
+
+router.post('/getuser', fetchuser ,async (req, res) => {
+    try {
+        const findUser = req.user.id
+        const resultantUser = await User.findById(findUser).select("-password")
+        res.json({resultantUser})
+        console.log(resultantUser)
+
+    } catch (error) {
+        res.send(500).json({ error: "An error occured in the server" })
+        console.log(error.message())
+    }
+})
 
 module.exports = router;
