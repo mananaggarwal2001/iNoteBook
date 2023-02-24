@@ -32,7 +32,7 @@ router.post('/addNotes', fetchuser, [
     // If there are errors while not fulfilling the demand of the notes then directly we will declare it as the bad request.
 
     if (!resultValidation.isEmpty()) {
-        return res.status(400).json({ errors: resultValidation.Array() })
+        return res.status(400).json({ errors: resultValidation })
     }
 
     try {
@@ -92,7 +92,7 @@ router.delete('/deleteNote/:id', fetchuser, async (req, res) => {
         }
 
         // to check whether the notes are by that particular user or not if not we will show the unauthorized error and if not we will proceed by the further process of deletion and same goes for the updation of the note also.
-        
+
         if (NotetoDelete.user.toString() !== req.user.id) {
             return res.status(401).send("Unauthorized Access")
         }
