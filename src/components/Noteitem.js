@@ -1,4 +1,5 @@
 import React from 'react'
+import Alert from './Alert';
 
 const Noteitem = (props) => {
     const { note } = props;
@@ -6,8 +7,14 @@ const Noteitem = (props) => {
         <div className="col-sm-4 mb-3 mb-sm-0 my-5">
             <div className="card">
                 <div className="card-body">
-                    <h5 className="card-title text-center">{note.title}</h5>
-                    <p className="card-text">{note.description} Lorem ipsum dolor sit amet consectetur adipisicing elit. Id molestiae vitae temporibus mollitia ullam autem cum tenetur placeat voluptate recusandae nemo saepe molestias quas, in quaerat, ducimus qui provident non?</p>
+                    <div className="d-flex justify-content-between">
+                        <h5 className="card-title text-center">{note.title}</h5>
+                        <div>
+                            <i className="fa-sharp fa-solid fa-trash mx-2" data-toggle="tooltip" data-placement="top" title="Delete The Note"></i>
+                            <i className="fa-solid fa-pen-to-square mx-2" data-toggle="tooltip" data-placement="top" title="Edit the Note"></i>
+                        </div>
+                    </div>
+                    <p className="card-text">{note.description}</p>
                 </div>
             </div>
         </div>
