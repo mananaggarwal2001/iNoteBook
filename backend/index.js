@@ -12,5 +12,5 @@ app.use('/api/notes', require('./routes/notes.js'))
 
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`inoteBook Backend is listening on port ${port}`)
 })
