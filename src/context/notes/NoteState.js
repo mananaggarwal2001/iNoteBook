@@ -50,18 +50,14 @@ const NoteState = (props) => {
     }
     // delete the note
     const deleteNote = async (id) => {
-        // API Operation TODO for the deletion of the note.
-        const response = await fetch(`${host}/api/notes/deleteNote/${id}`, {
+        await fetch(`${host}/api/notes/deleteNote/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmNzUxYjhkMGUyZDVmZTgzYjA0N2Q5In0sImlhdCI6MTY3NzE1NTQwNX0.NAkgaoEAg5xLm_IiEbIlnLUzi9sJ8KKAonK6L3xMKZ0',
                 // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: JSON.stringify()
         });
-        const newReponse = await response.json();
-        // console.log(newReponse);
 
         // Logic to deleteNote in client
         console.log("Deleting the note with the id which is :- " + id)
