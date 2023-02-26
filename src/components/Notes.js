@@ -1,15 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import noteContext from '../context/notes/noteContext';
 import AddNotes from './AddNotes';
 import Alert from './Alert';
 import Noteitem from './Noteitem';
+
+
 const Notes = () => {
+    const navigate = useNavigate();
     const notes = useContext(noteContext);
     const { Notes, AddNote, getAllNotes, editNote } = notes;
 
     useEffect(() => {
-        getAllNotes()
+        if (localStorage.getItem('token')) {
+            getAllNotes()
+        } else {
+            navigate('/login')
+        }
     }, [])
     const ref = useRef(null)
     const closeref = useRef(null)
