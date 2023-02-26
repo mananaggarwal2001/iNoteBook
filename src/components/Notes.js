@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import Swal from 'sweetalert2';
 import noteContext from '../context/notes/noteContext';
 import AddNotes from './AddNotes';
+import Alert from './Alert';
 import Noteitem from './Noteitem';
 const Notes = () => {
     const notes = useContext(noteContext);
@@ -21,13 +23,28 @@ const Notes = () => {
 
     }
 
-    const handleUpdateNote = (e) => {
+    const handleUpdateNote = async (e) => {
         e.preventDefault();
-        console.log("Updating the note in the given console which is the way to update the note")
-        editNote(Note.id, Note.etitle, Note.edescription, Note.etag)
-        closeref.current.click() // for closing the modal we will use this function
-    }
-    // the launch demo modal button is used for acivating the modal class which is referenced by the icon which is in the note button.
+        const response = await Swal.fire({
+            icon: 'question',
+            confirmButtonText: 'Update Note',
+            confirmButtonColor: 'green',
+            cancelButtonColor: 'red',
+            cancelButtonText: "Don't Update",
+            showCancelButton: true,
+            showConfirmButton: true
+        })
+        if (response.isConfirmed) {
+
+            console.log("Updating the note in the given console which is the way to update the note")
+            editNote(Note.id, Note.etitle, Note.edescription, Note.etag)
+            closeref.current.click() // for closing the modal we will use this function
+            Alert('success', 'Note Updated Successfully in the iNoteBook')
+        } else {
+            closeref.current.click()
+            Alert("error", "Note is not Updated in the iNoteBook")
+        }
+    } // the launch demo modal button is used for acivating the modal class which is referenced by the icon which is in the note button.
     return (
         <>
             <AddNotes />
@@ -74,7 +91,7 @@ const Notes = () => {
             <div className="row">
                 <div className='text-center container' style={{ fontWeight: 'bold', fontSize: '20px', fontFamily: 'cursive' }}>{Notes.length === 0 && 'No Notes To Display'}</div>
                 {Notes.map((element) => {
-                    return <Noteitem key= {element.id} updateNote={updateNote} note={element} />
+                    return <Noteitem key={element.id} updateNote={updateNote} note={element} />
                 })}
             </div>
 

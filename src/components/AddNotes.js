@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react'
+import Swal from 'sweetalert2';
 import noteContext from '../context/notes/noteContext';
+import Alert from './Alert';
 const AddNotes = () => {
     const notes = useContext(noteContext);
     const { Notes, addNote } = notes;
@@ -9,10 +11,29 @@ const AddNotes = () => {
 
 
 
-    const handleAddNotes = (e) => {
+    const handleAddNotes = async (e) => {
         e.preventDefault();
-        addNote(Note.title, Note.description, Note.tag); // this function is made in the NoteState.js file which will be used for adding the notes in the application just we have to call this function and pass the Note as the parameter.
-        setNote({ title: "", description: "", tag: "General" })
+
+        const response = await Swal.fire({
+            confirmButtonText: "Accept",
+            cancelButtonText: "Decline",
+            confirmButtonColor: "green",
+            cancelButtonColor: "red",
+            icon: "warning",
+            text: "Are you Sure want to add this note",
+            showCancelButton: true
+        });
+
+        if (response.isConfirmed) {
+
+            addNote(Note.title, Note.description, Note.tag); // this function is made in the NoteState.js file which will be used for adding the notes in the application just we have to call this function and pass the Note as the parameter.
+            setNote({ title: "", description: "", tag: "General" })
+            Alert('success', 'Note has been added Successfully in the iNotebook')
+        } else {
+            Alert('error', 'Note is Not Added in the iNoteBook')
+
+        }
+
     }
 
     const onChange = (e) => {

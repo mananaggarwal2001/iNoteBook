@@ -1,12 +1,15 @@
 import React from 'react'
 import Swal from 'sweetalert2'
-const Alert = () => {
+const Alert = (icon, message) => {
     return (
         Swal.fire({
-            title: 'Error!',
-            text: 'Do you want to continue',
-            icon: 'error',
-            confirmButtonText: 'Cool'
+            icon: icon,
+            text: message,
+            showCancelButton: false,
+            showConfirmButton: false,
+            showDenyButton: false,
+            showCloseButton: false,
+            timer:1500
         })
     )
 }

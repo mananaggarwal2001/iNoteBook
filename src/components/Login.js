@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Alert from './Alert';
 function Login() {
 
     const [Credentials, setCredentials] = useState({ Email: "", Password: "" })
 
-    const  navigate= useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault()
         const response = await fetch('http://localhost:5000/api/auth/login', {
@@ -18,9 +19,10 @@ function Login() {
         const responsejosn = await response.json()
         if (responsejosn.success) {
             localStorage.setItem('token', responsejosn.authToken)
-            navigate('/')
+            navigate('/');
+            Alert('success', 'Login Successfull')
         } else {
-            alert("Invalid Credentials given")
+            Alert('error', 'Invalid Credentials')
         }
         console.log(responsejosn)
     }
@@ -40,11 +42,11 @@ function Login() {
                 <form className="p-3 mt-3" onSubmit={handleSubmit}>
                     <div className="form-field d-flex align-items-center">
                         <span className="far fa-user"></span>
-                        <input type="email" value={Credentials.Email} name="Email" id="email" placeholder="Email" onChange={onChange} required/>
+                        <input type="email" value={Credentials.Email} name="Email" id="email" placeholder="Email" onChange={onChange} required />
                     </div>
                     <div className="form-field d-flex align-items-center">
                         <span className="fas fa-key"></span>
-                        <input type="password" value={Credentials.Password} name="Password" id="password" placeholder="Password" onChange={onChange} required/>
+                        <input type="password" value={Credentials.Password} name="Password" id="password" placeholder="Password" onChange={onChange} required />
                     </div>
                     <button type='submit' className="btn mt-3">Login</button>
                 </form>

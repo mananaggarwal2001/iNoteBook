@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Alert from './Alert';
 function Signup() {
     const navigate = useNavigate()
     const [RegisterCredentials, setRegisterCredentials] = useState({ name: "", userName: "", email: "", password: "", repeatPassword: "" });
@@ -20,8 +21,9 @@ function Signup() {
         console.log(json);
         if (json.success) {
             navigate('/login')
+            Alert('success', 'Account Created Successfully')
         } else {
-            alert("The user is already registered please try again with the different user.")
+            Alert('error', 'Account Already Exists.')
         }
     }
     return (
@@ -35,23 +37,23 @@ function Signup() {
             <form className="p-3 mt-3" onSubmit={handleRegisterForm}>
                 <div className="form-field d-flex align-items-center">
                     <span className="far fa-user"></span>
-                    <input type="text" value={RegisterCredentials.name} name="name" id="userName" placeholder="Name" onChange={onChange} required/>
+                    <input type="text" value={RegisterCredentials.name} name="name" id="userName" placeholder="Name" onChange={onChange} required />
                 </div>
                 <div className="form-field d-flex align-items-center">
                     <span className="far fa-user"></span>
-                    <input type="text" value={RegisterCredentials.userName} name="userName" id="userName" placeholder="Username" onChange={onChange} required/>
+                    <input type="text" value={RegisterCredentials.userName} name="userName" id="userName" placeholder="Username" onChange={onChange} required />
                 </div>
                 <div className="form-field d-flex align-items-center">
                     <span className="far fa-solid fa-envelope"></span>
-                    <input type="email" value={RegisterCredentials.email} name="email" id="email" placeholder="Email" onChange={onChange} required/>
+                    <input type="email" value={RegisterCredentials.email} name="email" id="email" placeholder="Email" onChange={onChange} required />
                 </div>
                 <div className="form-field d-flex align-items-center">
                     <span className="fas fa-key"></span>
-                    <input type="password" value={RegisterCredentials.password} name="password" id="pwd" placeholder="Password" onChange={onChange} minLength={5} required/>
+                    <input type="password" value={RegisterCredentials.password} name="password" id="pwd" placeholder="Password" onChange={onChange} minLength={5} required />
                 </div>
                 <div className="form-field d-flex align-items-center">
                     <span className="fas fa-key"></span>
-                    <input type="password" value={RegisterCredentials.repeatPassword} name="repeatPassword" id="pwd" placeholder="Repeat Password" onChange={onChange} minLength={5} required/>
+                    <input type="password" value={RegisterCredentials.repeatPassword} name="repeatPassword" id="pwd" placeholder="Repeat Password" onChange={onChange} minLength={5} required />
                 </div>
                 <button className="btn mt-3">Sign Up</button>
             </form>

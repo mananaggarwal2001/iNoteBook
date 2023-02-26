@@ -1,6 +1,7 @@
 import React from "react";
 import noteContext from "./noteContext";
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const NoteState = (props) => {
     // syntax for using the context API which is made in the noteContext.js file we are using in this NoteState.js file .
@@ -42,21 +43,59 @@ const NoteState = (props) => {
     }
     // delete the note
     const deleteNote = async (id) => {
-        await fetch(`${host}/api/notes/deleteNote/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmNzUxYjhkMGUyZDVmZTgzYjA0N2Q5In0sImlhdCI6MTY3NzE1NTQwNX0.NAkgaoEAg5xLm_IiEbIlnLUzi9sJ8KKAonK6L3xMKZ0',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
+
+        const response = await Swal.fire({
+            icon: 'question',
+            text: "Are you Sure want to delete this Note",
+            confirmButtonColor: 'green',
+            confirmButtonText: 'Delete Note',
+            cancelButtonColor: 'red',
+            cancelButtonText: 'Cancel',
+            showCancelButton:true
+            // showCancelButton:false,
+            // showConfirmButton:false,
+            // showCloseButton:false,
+            // showDenyButton:false
         });
 
-        // Logic to deleteNote in client
-        console.log("Deleting the note with the id which is :- " + id)
-        const newNotes = Notes.filter((note) => {
-            return (note._id !== id);
-        })
-        setNotes(newNotes);
+        if (response.isConfirmed) {
+
+            Swal.fire({
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                showDenyButton: false,
+                icon: 'success',
+                text: 'Notes has Been deleted',
+                timer: 1000
+            })
+            await fetch(`${host}/api/notes/deleteNote/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmNzUxYjhkMGUyZDVmZTgzYjA0N2Q5In0sImlhdCI6MTY3NzE1NTQwNX0.NAkgaoEAg5xLm_IiEbIlnLUzi9sJ8KKAonK6L3xMKZ0',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
+
+
+            // Logic to deleteNote in client
+            console.log("Deleting the note with the id which is :- " + id)
+            const newNotes = Notes.filter((note) => {
+                return (note._id !== id);
+            })
+            setNotes(newNotes);
+        } else {
+            Swal.fire({
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                showDenyButton: false,
+                icon: 'error',
+                text: 'Note is not Deleted',
+                timer: 1000
+            });
+        }
     }
     // edit  the note
     const editNote = async (id, title, description, tag) => {
