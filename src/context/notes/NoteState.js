@@ -17,8 +17,8 @@ const NoteState = (props) => {
             },
         });
         const newReponse = await response.json();
-        console.log(newReponse)
         setNotes(newReponse)
+        return newReponse;
     }
 
     // Add a note
@@ -28,25 +28,17 @@ const NoteState = (props) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmNzUxYjhkMGUyZDVmZTgzYjA0N2Q5In0sImlhdCI6MTY3NzE1NTQwNX0.NAkgaoEAg5xLm_IiEbIlnLUzi9sJ8KKAonK6L3xMKZ0',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjNmNzUxYjhkMGUyZDVmZTgzYjA0N2Q5In0sImlhdCI6MTY3NzE1NTQwNX0.NAkgaoEAg5xLm_IiEbIlnLUzi9sJ8KKAonK6L3xMKZ0'
             },
             body: JSON.stringify({ title, description, tag })
         });
-        const newReponse = await response.json();
-        console.log(newReponse);
-
+        const newNote = {
+            title: title,
+            description: description,
+            tag: tag
+        }
+        setNotes(Notes.concat(newNote)) // note is being added using the push method.
         // Logic to add Note in client
-        const note = {
-            "_id": "63f8a07d2177c81d0a1dd173",
-            "user": "63f751b8d0e2d5fe83b047d9",
-            "title": title,
-            "description": description,
-            "tag": tag,
-            "date": "2023-02-24T11:33:17.491Z",
-            "__v": 0
-        };
-        setNotes(Notes.concat(note)) // note is being added using the push method.
     }
     // delete the note
     const deleteNote = async (id) => {
@@ -80,14 +72,20 @@ const NoteState = (props) => {
         });
         const newReponse = await response.json();
         console.log(newReponse);
+        // In the react js the state doesn't update directly in the react what we will do is to :-
+        let newNotes = JSON.parse(JSON.stringify(Notes)); // this will create the copy of the new Notes which is updated in the backend in the variable newNotes.
         // Logic to editing the note in client side.
-        Notes.forEach((element) => {
-            if (element._id === id) {
-                element.title = title;
-                element.description = description;
-                element.tag = tag
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
+            if (id === Notes[index]._id) {
+                newNotes[index].title = title;
+                newNotes[index].description = description;
+                newNotes[index].tag = tag;
+                break;
             }
-        })
+
+        }
+        setNotes(newNotes)
 
     }
     const [Notes, setNotes] = useState(notesintial)

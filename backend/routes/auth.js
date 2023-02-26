@@ -20,11 +20,13 @@ router.post('/createuser',
     body('name', 'Enter the valid of min length 3').isLength({ min: 3 })
     ],
     async (req, res, next) => {
+        let success=false;
         // if there are errors return bad request and the errors.
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) { // this is used by the express validator if the validationResult which is defined by the destructing in the above situation is not true then it will  return the 400 status code and the return the error.array() file and terminate the program above.
-            return res.status(400).json({ errors: errors.array() });
+            success=false;
+            return res.status(400).json({ success, errors: errors.array() });
         }
 
         // check whether the user exist already or not and if not then create the user otherwise throw the error the user already exist.
@@ -32,7 +34,8 @@ router.post('/createuser',
 
             let givenUser = await User.findOne({ email: req.body.email })
             if (givenUser) {
-                return res.status(400).json({ message: "Sorry this user already existis with this email please try with the different emaile address Thank You !!!!" })
+                success=false;
+                return res.status(400).json({ success, message: "Sorry this user already existis with this email please try with the different emaile address Thank You !!!!" })
             } else {
                 const salt = await bcryptjs.genSalt(10)
                 const securePassword = await bcryptjs.hash(req.body.password, salt);
@@ -50,7 +53,8 @@ router.post('/createuser',
 
                 const authToken = jwt.sign(data, JWT_SECRET);
                 console.log(user)
-                res.json({ authToken })
+                success=true;
+                res.json({ success, authToken })
             }
         } catch (error) {
             console.error(error.message)
@@ -65,7 +69,9 @@ router.post('/login',
     [body('email', 'Enter the valid Email').isEmail()
         , body('password', 'Password cannot be blank').exists()
     ]
+
     , async (req, res) => {
+        let success = false;
         const result = validationResult(req);
         if (!result.isEmpty()) {
             return res.status(400).json({ error: "Please Enter the valid credentials and try again !!", details: result.array() })
@@ -74,11 +80,13 @@ router.post('/login',
             try {
                 const findUser = await User.findOne({ email });
                 if (!findUser) {
-                    return res.status(400).json({ error: "Try to Login with the Correct Credentials." })
+                    success = false;
+                    return res.status(400).json({ success, error: "Try to Login with the Correct Credentials." })
                 }
                 const passwordMatch = await bcryptjs.compare(password, findUser.password)
                 if (!passwordMatch) {
-                    return res.status(400).json({ error: "Try to Login with the correct credentials." })
+                    success = false;
+                    return res.status(400).json({ success, error: "Try to Login with the correct credentials." })
                 }
 
                 // if all the credentials are correct then we will send the payload in which the user id will be send
@@ -89,7 +97,8 @@ router.post('/login',
                     }
                 }
                 const authToken = jwt.sign(data, JWT_SECRET)
-                res.json({ authToken })
+                success = true;
+                res.json({ success, authToken })
             } catch (error) {
                 console.log(error.message())
                 res.status(500).send("Internal Server Error")
@@ -99,11 +108,11 @@ router.post('/login',
 
 // ROUTE 3 :- GET THE USER DETAILS IN FOR THE PARTICULAR USER .
 
-router.post('/getuser', fetchuser ,async (req, res) => {
+router.post('/getuser', fetchuser, async (req, res) => {
     try {
         const findUser = req.user.id
         const resultantUser = await User.findById(findUser).select("-password")
-        res.json({resultantUser})
+        res.json({ resultantUser })
         console.log(resultantUser)
 
     } catch (error) {

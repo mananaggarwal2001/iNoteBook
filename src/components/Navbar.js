@@ -21,6 +21,10 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
+                <form action="" className="d-flex">
+                    <Link className="btn btn-primary mx-2" to='/login'>Login</Link>
+                    <Link className="btn btn-primary" to='/signup'>Sign Up</Link>
+                </form>
             </div>
         </nav>
     )
