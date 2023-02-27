@@ -8,15 +8,14 @@ function Navbar() {
     let location = useLocation();
     let navigate = useNavigate()
     let username = "";
+    username = handleExportUsername();
     const handleLogoutFunction = (e) => {
         e.preventDefault()
         console.log(localStorage.getItem('token'))
         localStorage.removeItem('token')
         console.log(localStorage.getItem('token'))
-        username = "";
         navigate('/login')
     }
-    username = handleExportUsername();
     const [Username, setUsername] = useState("")
     return (
         <nav className="navbar navbar-expand-lg navbar-dark  bg-dark">
