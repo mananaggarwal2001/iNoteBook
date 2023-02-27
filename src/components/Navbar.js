@@ -12,12 +12,12 @@ function Navbar() {
     const handleLogoutFunction = (e) => {
         e.preventDefault()
         console.log(localStorage.getItem('token'))
-        localStorage.removeItem('token')
+        localStorage.clear()
         console.log(localStorage.getItem('token'))
         navigate('/login')
         handleExportUsername = null;
     }
-    const [Username, setUsername] = useState("")
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark  bg-dark">
             <div className="container-fluid">
@@ -34,9 +34,9 @@ function Navbar() {
                             <Link className={`nav-link ${location.pathname === '/about' ? "active" : ""}`} to="/about">About</Link>
                         </li>
                     </ul>
-
+                    {console.log(handleExportUsername.apply())}
                     {!localStorage.getItem('token') ? "" :
-                        <span className='navbar-text mx-2 text-lg-start' style={{ fontSize: '18px' }}>{handleExportUsername.apply()}</span>
+                        <span className='navbar-text mx-2 text-lg-start' style={{ fontSize: '18px' }}>{localStorage.getItem('name')}</span>
                     }
                     {!localStorage.getItem('token') ? <form action="" className="d-flex">
                         <Link className="btn btn-primary" to='/login'>Login</Link>

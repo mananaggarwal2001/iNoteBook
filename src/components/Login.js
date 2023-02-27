@@ -5,9 +5,7 @@ import Alert from './Alert';
 let username = null;
 
 
-function handleExportUsername() {
-    return username;
-}
+
 function Login() {
 
     const [Credentials, setCredentials] = useState({ Email: "", Password: "" })
@@ -29,7 +27,7 @@ function Login() {
             localStorage.setItem('token', responseJson.authToken)
             navigate('/');
             Alert('success', 'Login Successful')
-            username = responseJson.findUser.name;
+            localStorage.setItem('name', responseJson.findUser.name);
         } else {
             Alert('error', 'Invalid Credentials')
         }
@@ -64,6 +62,10 @@ function Login() {
             </div>
         </>
     )
+}
+
+function handleExportUsername() {
+    return username;
 }
 
 
