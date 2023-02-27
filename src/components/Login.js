@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Alert from './Alert';
+
+let username = null;
+
+
+function handleExportUsername() {
+    return username;
+}
 function Login() {
 
     const [Credentials, setCredentials] = useState({ Email: "", Password: "" })
@@ -16,16 +23,16 @@ function Login() {
             },
             body: JSON.stringify({ email: Credentials.Email, password: Credentials.Password })
         })
-
-        const responsejosn = await response.json()
-        if (responsejosn.success) {
-            localStorage.setItem('token', responsejosn.authToken)
+        let responseJson = await response.json();
+        console.log(responseJson)
+        if (responseJson.success) {
+            localStorage.setItem('token', responseJson.authToken)
             navigate('/');
             Alert('success', 'Login Successful')
+            username = responseJson.findUser.name;
         } else {
             Alert('error', 'Invalid Credentials')
         }
-        console.log(responsejosn)
     }
     const onChange = (e) => {
         setCredentials({ ...Credentials, [e.target.name]: e.target.value })
@@ -59,4 +66,5 @@ function Login() {
     )
 }
 
-export default Login
+
+export { Login, handleExportUsername }

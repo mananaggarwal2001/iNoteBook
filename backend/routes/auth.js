@@ -20,12 +20,12 @@ router.post('/createuser',
     body('name', 'Enter the valid of min length 3').isLength({ min: 3 })
     ],
     async (req, res, next) => {
-        let success=false;
+        let success = false;
         // if there are errors return bad request and the errors.
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) { // this is used by the express validator if the validationResult which is defined by the destructing in the above situation is not true then it will  return the 400 status code and the return the error.array() file and terminate the program above.
-            success=false;
+            success = false;
             return res.status(400).json({ success, errors: errors.array() });
         }
 
@@ -34,7 +34,7 @@ router.post('/createuser',
 
             let givenUser = await User.findOne({ email: req.body.email })
             if (givenUser) {
-                success=false;
+                success = false;
                 return res.status(400).json({ success, message: "Sorry this user already existis with this email please try with the different emaile address Thank You !!!!" })
             } else {
                 const salt = await bcryptjs.genSalt(10)
@@ -53,7 +53,7 @@ router.post('/createuser',
 
                 const authToken = jwt.sign(data, JWT_SECRET);
                 console.log(user)
-                success=true;
+                success = true;
                 res.json({ success, authToken })
             }
         } catch (error) {
@@ -98,7 +98,7 @@ router.post('/login',
                 }
                 const authToken = jwt.sign(data, JWT_SECRET)
                 success = true;
-                res.json({ success, authToken })
+                res.json({ success, authToken, findUser })
             } catch (error) {
                 console.log(error.message())
                 res.status(500).send("Internal Server Error")

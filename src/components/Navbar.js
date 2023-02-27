@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { handleExportUsername } from './Login'
+
+
 function Navbar() {
     let location = useLocation();
     let navigate = useNavigate()
+    let username = "";
     const handleLogoutFunction = (e) => {
         e.preventDefault()
         console.log(localStorage.getItem('token'))
         localStorage.removeItem('token')
         console.log(localStorage.getItem('token'))
+        username = "";
         navigate('/login')
     }
-    const [nameStatechange, setnameStatechange] = useState("")
+    username = handleExportUsername();
+    const [Username, setUsername] = useState("")
     return (
         <nav className="navbar navbar-expand-lg navbar-dark  bg-dark">
             <div className="container-fluid">
@@ -28,7 +34,7 @@ function Navbar() {
                             <Link className={`nav-link ${location.pathname === '/about' ? "active" : ""}`} to="/about">About</Link>
                         </li>
                     </ul>
-                    <span className='navbar-text mx-2 text-lg-start' style={{fontSize:'18px'}}>Username {nameStatechange}</span>
+                    <span className='navbar-text mx-2 text-lg-start' style={{ fontSize: '18px' }}>{username === null ? "" : username}</span>
                     {!localStorage.getItem('token') ? <form action="" className="d-flex">
                         <Link className="btn btn-primary" to='/login'>Login</Link>
                         <Link className="btn btn-primary mx-3" to='/signup'>Sign Up</Link>
