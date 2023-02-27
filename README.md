@@ -23,3 +23,37 @@
 ```
 
 ## How to use this Application
+
+1. Clone this Application
+
+```dotnetcli
+git clone https://github.com/mananaggarwal2001/iNoteBook.git
+```
+2. Change the Directory into the application where you have cloned.
+
+```dotnetcli
+cd iNote(Press Tab For auto completition in the Application)
+```
+3. Then Open the Given Application with whatever IDE you have being installed in the application
+4. After opening the Application first install the Dependencies for the frontend by running the Command given below:
+
+```dotnetcli
+npm install
+```
+5. Then Repeat the step 4 for install the dependencies for the backend also by running the command which is
+
+```dotnetcli
+npm install
+```
+Note:- for installing the dependencies in the backend first change the directory into the backend by running the command which is
+```dotnetcli
+cd backend
+```
+Then run the command `npm install` for installing the Dependencies in the backend
+
+6. Finally start the Application by running the command which is given below and enjoy the application.
+
+```dotnetcli
+npm run both
+```
+## Glimpses of the Given Application 
