@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 function Navbar() {
@@ -11,6 +11,7 @@ function Navbar() {
         console.log(localStorage.getItem('token'))
         navigate('/login')
     }
+    const [nameStatechange, setnameStatechange] = useState("")
     return (
         <nav className="navbar navbar-expand-lg navbar-dark  bg-dark">
             <div className="container-fluid">
@@ -27,12 +28,13 @@ function Navbar() {
                             <Link className={`nav-link ${location.pathname === '/about' ? "active" : ""}`} to="/about">About</Link>
                         </li>
                     </ul>
+                    <span className='navbar-text mx-2 text-lg-start' style={{fontSize:'18px'}}>Username {nameStatechange}</span>
+                    {!localStorage.getItem('token') ? <form action="" className="d-flex">
+                        <Link className="btn btn-primary" to='/login'>Login</Link>
+                        <Link className="btn btn-primary mx-3" to='/signup'>Sign Up</Link>
+                    </form> : <button onClick={handleLogoutFunction} className='btn btn-primary'>Logout</button>
+                    }
                 </div>
-                {!localStorage.getItem('token') ? <form action="" className="d-flex">
-                    <Link className="btn btn-primary mx-2" to='/login'>Login</Link>
-                    <Link className="btn btn-primary" to='/signup'>Sign Up</Link>
-                </form> : <button onClick={handleLogoutFunction} className='btn btn-primary'>Logout</button>
-                }
             </div>
         </nav>
     )

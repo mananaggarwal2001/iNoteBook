@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Alert from './Alert';
 function Signup() {
     const navigate = useNavigate()
@@ -29,7 +29,7 @@ function Signup() {
     return (
         <div className="wrapper">
             <div className="logo">
-                <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="" />
+                <img src="https://png.pngtree.com/png-vector/20210511/ourlarge/pngtree-notebook-business-writing-books-png-image_3265895.jpg" alt="" />
             </div>
             <div className="text-center mt-4 name">
                 Sign Up
@@ -58,7 +58,7 @@ function Signup() {
                 <button className="btn mt-3">Sign Up</button>
             </form>
             <div className="text-center fs-6">
-                <p className='text-center'>if you already have an account then </p><a href="#" style={{ fontSize: '15px' }}>Login</a>
+                <p className='text-center'>if you already have an account then </p><Link to="/login" style={{ fontSize: '15px' }}>Login</Link>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Alert from './Alert';
 function Login() {
 
@@ -7,6 +7,7 @@ function Login() {
 
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
+
         e.preventDefault()
         const response = await fetch('http://localhost:5000/api/auth/login', {
             method: 'POST',
@@ -20,7 +21,7 @@ function Login() {
         if (responsejosn.success) {
             localStorage.setItem('token', responsejosn.authToken)
             navigate('/');
-            Alert('success', 'Login Successfull')
+            Alert('success', 'Login Successful')
         } else {
             Alert('error', 'Invalid Credentials')
         }
@@ -34,14 +35,14 @@ function Login() {
         <>
             <div className="wrapper">
                 <div className="logo">
-                    <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="" />
+                    <img src="https://png.pngtree.com/png-vector/20210511/ourlarge/pngtree-notebook-business-writing-books-png-image_3265895.jpg" alt="" />
                 </div>
                 <div className="text-center mt-4 name">
                     Login
                 </div>
                 <form className="p-3 mt-3" onSubmit={handleSubmit}>
                     <div className="form-field d-flex align-items-center">
-                        <span className="far fa-user"></span>
+                        <span className="far fa-envelope fa-solid"></span>
                         <input type="email" value={Credentials.Email} name="Email" id="email" placeholder="Email" onChange={onChange} required />
                     </div>
                     <div className="form-field d-flex align-items-center">
@@ -51,7 +52,7 @@ function Login() {
                     <button type='submit' className="btn mt-3">Login</button>
                 </form>
                 <div className="text-center fs-6">
-                    <p className='text-center'>if you don't have a account then</p><a href="#" style={{ fontSize: '15px' }}>Sign up</a>
+                    <p className='text-center'>if you don't have a account then</p><Link to="/signup" style={{ fontSize: '15px' }}>Sign up</Link>
                 </div>
             </div>
         </>
