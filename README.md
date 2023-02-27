@@ -22,4 +22,4 @@
     mongoose: ^6.9.2
 ```
 
-## How to use this Application 
+## How to use this Application
