@@ -15,6 +15,7 @@ function Navbar() {
         localStorage.removeItem('token')
         console.log(localStorage.getItem('token'))
         navigate('/login')
+        handleExportUsername = null;
     }
     const [Username, setUsername] = useState("")
     return (
@@ -33,7 +34,10 @@ function Navbar() {
                             <Link className={`nav-link ${location.pathname === '/about' ? "active" : ""}`} to="/about">About</Link>
                         </li>
                     </ul>
-                    <span className='navbar-text mx-2 text-lg-start' style={{ fontSize: '18px' }}>{username === null ? "" : username}</span>
+
+                    {!localStorage.getItem('token') ? "" :
+                        <span className='navbar-text mx-2 text-lg-start' style={{ fontSize: '18px' }}>{handleExportUsername.apply()}</span>
+                    }
                     {!localStorage.getItem('token') ? <form action="" className="d-flex">
                         <Link className="btn btn-primary" to='/login'>Login</Link>
                         <Link className="btn btn-primary mx-3" to='/signup'>Sign Up</Link>
