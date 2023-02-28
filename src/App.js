@@ -4,8 +4,9 @@ import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/About';
 import NoteState from './context/notes/NoteState';
-import {Login} from './components/Login'
+import { Login } from './components/Login'
 import Signup from './components/Signup'
+import { useState } from 'react';
 function App() {
   // By wrapping the whole application into the NoteState we are providing the Access of the NoteState components to all the Components of the react Components and the Sub Components which are embedded in the main components of the react to prevent  the prop drilling process etc.
 

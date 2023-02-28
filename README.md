@@ -56,4 +56,18 @@ Then run the command `npm install` for installing the Dependencies in the backen
 ```dotnetcli
 npm run both
 ```
-## Glimpses of the Given Application 
+## Glimpses of the Given Application
+**1. Login Functionality**
+
+![image](https://user-images.githubusercontent.com/75381077/221779879-50b389ba-5668-471c-a3b8-208a4fe74799.png)
+
+**2. SignUp Functionality**
+
+![image](https://user-images.githubusercontent.com/75381077/221780091-d2ad8f9f-e2e9-4dbb-a4a9-2b89dd3a806b.png)
+**3. Add Note Page in the Given Note**
+
+![image](https://user-images.githubusercontent.com/75381077/221780547-65d699f2-a775-40e0-8004-f8b07576e6cc.png)
+
+**4. About Section of the Given Page**
+
+![image](https://user-images.githubusercontent.com/75381077/221780775-a520a69f-8c40-49d0-bc81-34084c917cf9.png)

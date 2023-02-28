@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleExportUsername } from './Login'
 
 
-function Navbar() {
+function Navbar(props) {
     let location = useLocation();
     let navigate = useNavigate()
     let username = "";

@@ -10,20 +10,25 @@ function Signup() {
 
     const handleRegisterForm = async (e) => {
         e.preventDefault()
-        const response = await fetch('http://localhost:5000/api/auth/createuser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name: RegisterCredentials.name, email: RegisterCredentials.email, password: RegisterCredentials.password })
-        })
-        const json = await response.json()
-        console.log(json);
-        if (json.success) {
-            navigate('/login')
-            Alert('success', 'Account Created Successfully')
+        if (RegisterCredentials.password === RegisterCredentials.repeatPassword) {
+
+            const response = await fetch('http://localhost:5000/api/auth/createuser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: RegisterCredentials.name, email: RegisterCredentials.email, password: RegisterCredentials.password })
+            })
+            const json = await response.json()
+            console.log(json);
+            if (json.success) {
+                navigate('/login')
+                Alert('success', 'Account Created Successfully')
+            } else {
+                Alert('error', 'Account Already Exists.')
+            }
         } else {
-            Alert('error', 'Account Already Exists.')
+            Alert('error', "Passwords and Repeat Password Doesn't match. Please Try Again !!!!!");
         }
     }
     return (
