@@ -1,5 +1,5 @@
 # INOTEBOOK APPLICATION
-### This is the full-feldge application made using the mern Stack
+### This is the full-feldge application made using the mern Stack which I have made during the course journey of the react js.
 
 ## Dependencies Used
 ### For FrontEnd
